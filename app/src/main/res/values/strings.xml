@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Facts</string>
+    <string name="stop">Stop</string>
+    <string name="start_facts">start facts</string>
+    <string name="facts">\"Scientists called it a big bang, Chuck Norris called it an alarm clock.\";\"Some are a one man army, Chuck Norris is a one man dynasty.\";\"Chuck Norris was invited to the set of Man v Food. They had to cancel the show when he ate Adam Richman.\";\"Chuck Norris is able to count to infinity. Twice.\";\"The Hulk is based on Chuck Norris when he is in a good mood.\";\"If Chuck gets into a car accident (yeah right) His car will need some airbags to protect it from him.\";\"Chuck Norris can shoot a person 28 times with an unloaded gun.\";\"Chuck Norris shakes the pillars of heaven just for the hell of it\"</string>
+
+</resources>
