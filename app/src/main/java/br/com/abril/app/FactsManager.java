@@ -14,7 +14,7 @@ class FactsManager {
     private final String[] factsArray;
     private int newFactIndex = -1;
 
-    private TextToSpeech speech;
+    private final TextToSpeech speech;
 
     public FactsManager(Context context) {
         factsArray = context.getResources().getStringArray(R.array.facts);

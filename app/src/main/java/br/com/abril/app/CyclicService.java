@@ -10,13 +10,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by GB on 1/23/14.
  */
-public abstract class CyclicService extends Service{
+abstract class CyclicService extends Service{
 
-    protected static final long DELAY_MILLIS = 1000;
-    protected final Handler mHandler = new Handler();
+    private final long DELAY_MILLIS = 1000;
+    private final Handler mHandler = new Handler();
 
-    protected boolean mStarted;
-    protected long startTime;
+    private boolean mStarted;
+    private long startTime;
 
     abstract void onUpdate();
 
@@ -30,7 +30,7 @@ public abstract class CyclicService extends Service{
         if (!mStarted) {
             mStarted = true;
             startTime = SystemClock.elapsedRealtime();
-            mHandler.postDelayed(mUpdateNewsRunnable, FactsService.DELAY_MILLIS);
+            mHandler.postDelayed(mUpdateNewsRunnable, DELAY_MILLIS);
         }
     }
 

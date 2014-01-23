@@ -34,7 +34,7 @@ public class MenuActivity extends Activity {
     private FactsService.FactsBinder factsService;
     private boolean mResumed;
 
-    private ServiceConnection mConnection = new ServiceConnection() {
+    private final ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             if (service instanceof FactsService.FactsBinder) {
