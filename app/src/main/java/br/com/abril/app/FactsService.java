@@ -33,7 +33,6 @@ public class FactsService extends CyclicService {
 		super.onCreate();
         cardManager = new FactsCardManager(this);
         factsHolder = new FactsManager(this);
-        cardManager.setText(factsHolder.getText());
 	}
 	
 	@Override
@@ -45,6 +44,7 @@ public class FactsService extends CyclicService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         cardManager.createMainCard();
+        cardManager.setText(factsHolder.getText());
 
         return START_STICKY;
     }
