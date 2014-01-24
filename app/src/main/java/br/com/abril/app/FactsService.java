@@ -1,27 +1,17 @@
 package br.com.abril.app;
 
 import com.google.android.glass.media.Sounds;
-import com.google.android.glass.timeline.LiveCard;
-import com.google.android.glass.timeline.TimelineManager;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
-import android.widget.RemoteViews;
 
 public class FactsService extends CyclicService {
 
-	private TimelineManager mTimelineManager;
-
     private FactsManager factsHolder;
-    private LiveCard liveCard;
-
-	private static final String TAG = "FactsService";
-    private static final String LIVE_CARD_ID = "facts";
+    private FactsCardManager cardManager;
 
     /**
      * A binder that gives other components access to the speech capabilities provided by the
@@ -41,8 +31,9 @@ public class FactsService extends CyclicService {
     @Override
 	public void onCreate() {
 		super.onCreate();
-		mTimelineManager = TimelineManager.from(this);
+        cardManager = new FactsCardManager(this);
         factsHolder = new FactsManager(this);
+        cardManager.setText(factsHolder.getText());
 	}
 	
 	@Override
@@ -53,7 +44,7 @@ public class FactsService extends CyclicService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        createMainCard();
+        cardManager.createMainCard();
 
         return START_STICKY;
     }
@@ -66,45 +57,16 @@ public class FactsService extends CyclicService {
 
     @Override
     public void onDestroy() {
-        destroyMainCard();
+        cardManager.destroyMainCard();
+        cardManager = null;
         factsHolder = null;
 
         super.onDestroy();
     }
 
-    private void createMainCard() {
-        if (liveCard == null) {
-            liveCard = mTimelineManager.createLiveCard(LIVE_CARD_ID);
-
-            changeText();
-
-            Intent menuIntent = new Intent(this, MenuActivity.class);
-            liveCard.setAction(PendingIntent.getActivity(this, 0, menuIntent, 0));
-
-            liveCard.publish(LiveCard.PublishMode.REVEAL);
-            Log.d(TAG, "Done publishing LiveCard");
-        } else {
-            // TODO(alainv): Jump to the LiveCard when API is available.
-        }
-    }
-
-    private void destroyMainCard() {
-        if (liveCard != null && liveCard.isPublished()) {
-            liveCard.unpublish();
-            liveCard = null;
-        }
-    }
-
-    private void setLivecardText(String text) {
-        RemoteViews views = new RemoteViews(this.getPackageName(), R.layout.card_fact);
-        views.setCharSequence(R.id.fact, "setText", text);
-
-        liveCard.setViews(views);
-    }
-
     private void changeText() {
         factsHolder.selectNext();
-        setLivecardText(factsHolder.getText());
+        cardManager.setText(factsHolder.getText());
     }
 
     private void playSound() {
